@@ -1,0 +1,30 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    # Everytime scaffold will be started, all the config files will get executed and create objects for us. Wherease will delete all the objects when scaffold will be stoped.
+    # telling scaffold to montior all the config files and run 'kubectl apply -f <file_name>.yaml' if anything changes inside them.
+    manifests:
+      - ./infra/k8s/*
+      - ./infra/k8s-dev/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: ankitverma0810/employee
+      context: employee
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ankitverma0810/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+    
