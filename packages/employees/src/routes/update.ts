@@ -1,53 +1,45 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { requireAuth, validateRequest, NotFoundError, NotAuthorizedError, BadRequestError } from '@ticketing-org/common';
+import express, { Request, Response } from "express";
+import { body } from "express-validator";
+import {
+	requireAuth,
+	validateRequest,
+	NotFoundError,
+} from "@talent-org/common";
 
-import { Ticket } from '../models/ticket';
-import { natsWrapper } from '../nats-wrapper';
-import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
+import { Employee } from "../models/employee";
 
 const router = express.Router();
 
 //requireAuth and currentUser middleware should be used together.
 //We are using currentUser middleware in the app.ts file.
-router.put('/api/tickets/:id', requireAuth, [
-    body('title')
-        .not()
-        .isEmpty()
-        .withMessage('Title is required'),
-    body('price')
-        .isFloat({ gt: 0 })
-        .withMessage('Price must be greater than 0')
-], validateRequest, async (req: Request, res: Response) => {
-    const ticket = await Ticket.findById(req.params.id);
+router.put(
+	"/api/tickets/:id",
+	requireAuth,
+	[
+		body("firstname").not().isEmpty().withMessage("Firstname is required"),
+		body("lastname").not().isEmpty().withMessage("Lastname is required"),
+		body("designation")
+			.not()
+			.isEmpty()
+			.withMessage("Designation is required"),
+	],
+	validateRequest,
+	async (req: Request, res: Response) => {
+		const employee = await Employee.findById(req.params.id);
 
-    if (!ticket) {
-        throw new NotFoundError();
-    }
+		if (!employee) {
+			throw new NotFoundError();
+		}
 
-    if (ticket.orderId) {
-        throw new BadRequestError('Cannot edit a reserved ticket');
-    }
+		employee.set({
+			firstname: req.body.firstname,
+			lastname: req.body.lastname,
+			designation: req.body.designation,
+		});
+		await employee.save();
 
-    if (ticket.userId !== req.currentUser!.id) {
-        throw new NotAuthorizedError();
-    }
+		res.send(employee);
+	}
+);
 
-    ticket.set({
-        title: req.body.title,
-        price: req.body.price
-    });
-    await ticket.save();
-
-    await new TicketUpdatedPublisher(natsWrapper.client).publish({
-        id: ticket.id,
-        title: ticket.title,
-        price: ticket.price,
-        userId: ticket.userId,
-        version: ticket.version
-    });
-
-    res.send(ticket);
-});
-
-export { router as updateTicketRouter };
+export { router as updateEmployeeRouter };

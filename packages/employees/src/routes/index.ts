@@ -1,14 +1,12 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response } from "express";
 
-import { Ticket } from '../models/ticket';
+import { Employee } from "../models/employee";
 
 const router = express.Router();
 
-router.get('/api/tickets', async (req: Request, res: Response) => {
-    const tickets = await Ticket.find({
-        orderId: undefined
-    });
-    res.send(tickets);
+router.get("/api/employees", async (req: Request, res: Response) => {
+	const employees = await Employee.find({});
+	res.send(employees);
 });
 
-export { router as indexTicketRouter };
+export { router as indexEmployeeRouter };

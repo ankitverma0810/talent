@@ -1,16 +1,16 @@
-import express, { Request, Response } from 'express';
-import { NotFoundError } from '@ticketing-org/common';
+import express, { Request, Response } from "express";
+import { NotFoundError } from "@talent-org/common";
 
-import { Ticket } from '../models/ticket';
+import { Employee } from "../models/employee";
 
 const router = express.Router();
 
-router.get('/api/tickets/:id', async (req: Request, res: Response) => {
-    const ticket = await Ticket.findById(req.params.id);
-    if(!ticket) {
-        throw new NotFoundError();
-    }
-    res.send(ticket);
+router.get("/api/employees/:id", async (req: Request, res: Response) => {
+	const employee = await Employee.findById(req.params.id);
+	if (!employee) {
+		throw new NotFoundError();
+	}
+	res.send(employee);
 });
 
-export { router as showTicketRouter };
+export { router as showEmployeeRouter };
