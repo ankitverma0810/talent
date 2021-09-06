@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employees-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employees
+  template:
+    metadata:
+      labels:
+        app: employees
+    spec:
+      containers:
+        - name: employees
+          image: ankitverma0810/employees
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  # path of the pod name
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              # name of the service defined in the nats-depl file
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              # name of the clusterId define in the nats-depl file
+              value: talent
+            - name: MONGO_URI
+              value: 'mongodb://employees-mongo-srv:27017/employees'
+              # This name will be set as one of the env variable in the employees container
+            - name: JWT_KEY
+              valueFrom:
+                # name and key which we have defined while creating the secret
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employees-srv
+spec:
+  selector:
+    app: employees
+  type: ClusterIP
+  ports: 
+    - name: employees
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

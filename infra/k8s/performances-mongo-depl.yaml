@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: performances-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: performances-mongo
+  template:
+    metadata:
+      labels:
+        app: performances-mongo
+    spec:
+      containers:
+        - name: performances-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: performances-mongo-srv
+spec:
+  selector:
+    app: performances-mongo
+  type: ClusterIP
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

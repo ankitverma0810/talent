@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: performances-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: performances
+  template:
+    metadata:
+      labels:
+        app: performances
+    spec:
+      containers:
+        - name: performances
+          image: ankitverma0810/performances
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  # path of the pod name
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              # name of the service defined in the nats-depl file
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              # name of the clusterId define in the nats-depl file
+              value: talent
+            - name: MONGO_URI
+              value: 'mongodb://performances-mongo-srv:27017/performances'
+              # This name will be set as one of the env variable in the performances container
+            - name: JWT_KEY
+              valueFrom:
+                # name and key which we have defined while creating the secret
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: performances-srv
+spec:
+  selector:
+    app: performances
+  type: ClusterIP
+  ports: 
+    - name: performances
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

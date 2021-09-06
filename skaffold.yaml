@@ -11,8 +11,16 @@ build:
   local:
     push: false
   artifacts:
-    - image: ankitverma0810/employee
-      context: employee
+    - image: ankitverma0810/employees
+      context: employees
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ankitverma0810/performances
+      context: performances
       docker:
         dockerfile: Dockerfile
       sync:

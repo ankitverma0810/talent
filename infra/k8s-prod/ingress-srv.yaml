@@ -16,7 +16,11 @@ spec:
             # path should be same as routes defined inside auth -> index.js file
           - path: /api/employees/?(.*)
             backend:
-              serviceName: employee-srv
+              serviceName: employees-srv
+              servicePort: 3000
+          - path: /api/performances/?(.*)
+            backend:
+              serviceName: performances-srv
               servicePort: 3000
           - path: /?(.*)
             backend:
