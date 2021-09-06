@@ -25,7 +25,7 @@ router.put(
 	async (req: Request, res: Response) => {
 		const { feedback, rating } = req.body;
 
-		const performance = await Performance.findById(req.params.id);
+		const performance = await Performance.findById(req.params.id).populate({ path: 'employee' });
 		if (!performance) {
 			throw new NotFoundError();
 		}

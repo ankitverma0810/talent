@@ -1,9 +1,12 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import Layout from "./hoc/Layout/Layout";
+import Routes from "./Routes";
 
-function App() {
-	return <div className="App">Hello World!</div>;
-}
+const App: React.FC = () => {
+	return (
+		<Layout>
+			<Routes isAuthenticated={false} />
+		</Layout>
+	);
+};
 
 export default App;
