@@ -5,7 +5,7 @@ import { Employee } from "../models/employee";
 
 const router = express.Router();
 
-router.get("/api/employees", requireAuth, async (req: Request, res: Response) => {
+router.get("/api/employees", async (req: Request, res: Response) => {
 	const employees = await Employee.find({}).populate({ path: 'reportsTo' });
 	res.send(employees);
 });

@@ -10,7 +10,6 @@ const router = express.Router();
 
 router.post(
 	"/api/employees",
-	requireAuth,
 	[
 		body("firstname").not().isEmpty().withMessage("Firstname is required"),
 		body("lastname").not().isEmpty().withMessage("Lastname is required"),

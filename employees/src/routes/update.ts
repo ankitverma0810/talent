@@ -16,7 +16,6 @@ const router = express.Router();
 //We are using currentUser middleware in the app.ts file.
 router.put(
 	"/api/employees/:id",
-	requireAuth,
 	[
 		body("firstname").not().isEmpty().withMessage("Firstname is required"),
 		body("lastname").not().isEmpty().withMessage("Lastname is required"),

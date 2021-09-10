@@ -1,7 +1,18 @@
 import React from "react";
 
-const Layout: React.FC = ({ children }) => {
-	return <div>{children}</div>;
+import Header from "../../components/Header/header";
+
+interface LayoutProps {
+	isAuthenticated: boolean;
+}
+
+const Layout: React.FC<LayoutProps> = ({ isAuthenticated, children }) => {
+	return (
+		<div>
+			{isAuthenticated ? <Header isAuthenticated={isAuthenticated} /> : null}
+			{children}
+		</div>
+	);
 };
 
 export default Layout;

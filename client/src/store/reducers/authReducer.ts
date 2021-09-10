@@ -1,21 +1,22 @@
 import { ActionTypes } from "../action-types";
-import { AuthActions } from '../actions/auth';
+import { AuthActions } from "../actions/auth";
 
 interface AuthState {
 	user: any | null;
-	token: string | null;
 	loading: boolean;
-	error: string | null;
+	error: { message: string; field?: string }[] | null;
 }
 
 const initialState: AuthState = {
 	user: null,
-	token: null,
 	loading: false,
 	error: null,
 };
 
-const reducer = (state: AuthState = initialState, action: AuthActions) => {
+const reducer = (
+	state: AuthState = initialState,
+	action: AuthActions
+): AuthState => {
 	switch (action.type) {
 		case ActionTypes.AUTH_START:
 			return {
@@ -26,8 +27,7 @@ const reducer = (state: AuthState = initialState, action: AuthActions) => {
 		case ActionTypes.AUTH_SUCCESS:
 			return {
 				...state,
-				token: action.payload.token,
-				user: action.payload.user,
+				user: action.payload,
 				error: null,
 				loading: false,
 			};
@@ -40,7 +40,6 @@ const reducer = (state: AuthState = initialState, action: AuthActions) => {
 		case ActionTypes.AUTH_LOGOUT:
 			return {
 				...state,
-				token: null,
 				user: null,
 			};
 		default:

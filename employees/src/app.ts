@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 //to handle async errors
 import "express-async-errors";
 import { json } from "body-parser";
@@ -15,6 +16,7 @@ import { signupRouter } from "./routes/signup";
 import { signoutRouter } from "./routes/signout";
 
 const app = express();
+app.use(cors());
 //enabling proxy. express is aware that it's behind a proxy of ingress ngingx and to make sure that it should still trust traffic as being secure even though it's coming from that proxy.
 app.set("trust proxy", true);
 app.use(json());
