@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 
 import authReducer from './authReducer';
 import employeeReducer from './employeeReducer';
+import performanceReducer from './performanceReducer';
 
 const reducers = combineReducers({
     auth: authReducer,
-    employees: employeeReducer
+    employees: employeeReducer,
+    performaces: performanceReducer
 });
 
 export default reducers;

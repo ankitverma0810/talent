@@ -9,6 +9,7 @@ import { errorHandler, NotFoundError, currentUser } from "@talent-org/common";
 import { createEmployeeRouter } from './routes/new';
 import { showEmployeeRouter } from './routes/show';
 import { indexEmployeeRouter } from './routes';
+import { searchEmployeeRouter } from './routes/search';
 import { updateEmployeeRouter } from './routes/update';
 import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
@@ -37,8 +38,8 @@ app.use(currentUserRouter);
 app.use(createEmployeeRouter);
 app.use(showEmployeeRouter);
 app.use(indexEmployeeRouter);
+app.use(searchEmployeeRouter);
 app.use(updateEmployeeRouter);
-
 
 app.all("*", () => {
 	throw new NotFoundError();

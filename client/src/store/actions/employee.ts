@@ -4,10 +4,10 @@ export interface Employee {
 	id: string;
 	firstname: string;
 	lastname: string;
-	role: string;
-	designation: string;
+	role?: string;
+	designation?: string;
 	email: string;
-	reportsTo: {};
+	reportsTo?: Employee;
 }
 
 export interface EmployeeStartAction {

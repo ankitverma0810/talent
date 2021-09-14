@@ -9,6 +9,7 @@ interface TextInputProps {
 	label: string;
 	name: string;
 	type?: string;
+	multiline?: boolean;
 }
 
 const TextInput: React.FC<TextInputProps & FieldHookConfig<string>> = (
@@ -30,6 +31,7 @@ const TextInput: React.FC<TextInputProps & FieldHookConfig<string>> = (
 				{...field}
 				name={props.name}
 				type={props.type ? props.type : "text"}
+				multiline={props.multiline ? true: false}
 			/>
 			<FormHelperText>
 				{meta.touched && meta.error ? meta.error : " "}

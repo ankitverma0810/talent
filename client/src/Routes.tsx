@@ -18,6 +18,9 @@ const EmployeeCreate = React.lazy(
 const EmployeeUpdate = React.lazy(
 	() => import("./containers/Employees/update")
 );
+const PerformanceCreate = React.lazy(
+	() => import("./containers/Performances/create")
+);
 
 const Routes: React.FC<RouteProps> = ({ isAuthenticated, userRole }) => {
 	let routes = (
@@ -35,21 +38,25 @@ const Routes: React.FC<RouteProps> = ({ isAuthenticated, userRole }) => {
 			<Switch>
 				<Route
 					exact
+					path="/performance/:id"
+					render={(props) => <PerformanceCreate {...props} />}
+				/>
+				<Route
+					exact
 					path="/employees"
 					render={(props) => <EmployeeList {...props} />}
 				/>
 				{userRole === RoleType.Admin ? (
-						<Route
-							path="/employees/create"
-							render={(props) => <EmployeeCreate {...props} />}
-						/>
+					<Route
+						path="/employees/create"
+						render={(props) => <EmployeeCreate {...props} />}
+					/>
 				) : null}
 				{userRole === RoleType.Admin ? (
-					
-						<Route
-							path="/employees/:id"
-							render={(props) => <EmployeeUpdate {...props} />}
-						/>
+					<Route
+						path="/employees/:id"
+						render={(props) => <EmployeeUpdate {...props} />}
+					/>
 				) : null}
 				<Route path="/signout" component={Signout} />
 				<Redirect from="/" to="/employees" />

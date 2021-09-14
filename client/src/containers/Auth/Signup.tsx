@@ -81,11 +81,17 @@ const Signup: React.FC = () => {
 						<TextInput label="Email*" name="email" />
 						<PasswordInput label="Password*" name="password" />
 
-						{error ? (
-							<Typography color="error" variant="body1">
-								{error}
-							</Typography>
-						) : null}
+						{error
+							? error.map((err) => (
+									<Typography
+										key={err.message}
+										color="error"
+										variant="body1"
+									>
+										{err.message}
+									</Typography>
+							  ))
+							: null}
 
 						<Button
 							type="submit"

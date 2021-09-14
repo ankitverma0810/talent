@@ -5,7 +5,7 @@ import { Employee } from "../models/employee";
 
 const router = express.Router();
 
-router.get("/api/employees/:id", async (req: Request, res: Response) => {
+router.get("/api/employees/:id", requireAuth, async (req: Request, res: Response) => {
 	const employee = await Employee.findById(req.params.id).populate({ path: 'reportsTo' });
 	if (!employee) {
 		throw new NotFoundError();
