@@ -12,9 +12,8 @@ Download Docker Desktop from https://docs.docker.com/desktop/windows/install/
 
 Enable Kubernetes:
 
-* Docker setting
-* Kubernetes
-* Enable Kubernetes
+* Open Docker and navigate to settings
+* Click on Kubernetes and enable it
 * Apply & Restart
 
 Install Ingress nginx:
@@ -35,11 +34,11 @@ Configure the host:
 
 Add Secret Keys:
 
-`kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf567rthdsy767`
+Open terminal and run `kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf567rthdsy767`
 
 Run Skaffold:
 
-`skaffold dev`
+Run `skaffold dev` in terminal
 
 # Usage
 
